@@ -1,0 +1,22 @@
+{
+  "name": "xss-security-lab",
+  "version": "1.0.0",
+  "description": "Educational web security lab demonstrating Reflected Cross-Site Scripting (XSS) and context-aware mitigation.",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "node --watch src/server.js"
+  },
+  "keywords": [
+    "xss",
+    "reflected-xss",
+    "security-lab",
+    "cybersecurity",
+    "web-security"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.19.2"
+  }
+}
