@@ -11,3 +11,6 @@ yarn-error.log*
 # OS generated files
 .DS_Store
 Thumbs.db
+
+# Local working copy (submission is in IIB2024016/)
+xss-security-lab/
