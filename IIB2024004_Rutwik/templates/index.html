@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SQL Injection Demo | IT-30001</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+<div class="container">
+    <!-- Navbar -->
+    <header class="navbar">
+        <div class="brand">
+            <span class="brand-badge">IT-30001</span>
+            <span>Web Server Security Lab</span>
+        </div>
+        <nav class="nav-links">
+            {% if logged_in_user %}
+                <a href="{{ url_for('dashboard') }}" class="nav-link">Dashboard</a>
+                <a href="{{ url_for('logout') }}" class="nav-link" style="color: #dc2626;">Logout</a>
+            {% endif %}
+        </nav>
+    </header>
+
+    <!-- Page Header -->
+    <div class="page-header">
+        <span class="page-badge">IIIT Allahabad • Cyber Security</span>
+        <h1 class="page-title">SQL Injection: Authentication Bypass</h1>
+        <p class="page-desc">
+            Demonstrate how an attacker logs in as <strong>admin</strong> without a password, and how <strong>parameterized queries</strong> stop it.
+        </p>
+    </div>
+
+    <!-- Mode Selector: Vulnerable vs Mitigated -->
+    <div class="mode-container">
+        <button type="button" class="mode-btn active-vulnerable" id="btn-mode-vulnerable">
+            <div class="mode-btn-title">
+                <span style="color: #dc2626;">●</span> 1. Vulnerable Mode
+            </div>
+            <div class="mode-btn-desc">Raw string concatenation. Vulnerable to injection.</div>
+        </button>
+
+        <button type="button" class="mode-btn" id="btn-mode-mitigated">
+            <div class="mode-btn-title">
+                <span style="color: #16a34a;">●</span> 2. Mitigated Mode
+            </div>
+            <div class="mode-btn-desc">Parameterized query. Completely secured.</div>
+        </button>
+    </div>
+
+    <!-- Main Card: Login & Exploit -->
+    <div class="card">
+        <div class="card-title">
+            <span>Test Login Form</span>
+            <span id="mode-indicator" class="badge badge-red">Mode: Vulnerable</span>
+        </div>
+
+        <!-- Quick Payload Insert -->
+        <div class="quick-payload">
+            <span>💡 Try Exploit:</span>
+            <button type="button" class="payload-btn" id="btn-fill-payload">admin' --</button>
+            <span style="color: var(--text-light); font-size: 0.8rem;">(Click to auto-fill bypass payload)</span>
+        </div>
+
+        <form id="login-form">
+            <input type="hidden" id="mode" name="mode" value="vulnerable">
+
+            <div class="form-group">
+                <label class="form-label" for="username">Username</label>
+                <input type="text" id="username" name="username" class="form-input" placeholder="e.g. admin' --" required autocomplete="off">
+            </div>
+
+            <div class="form-group">
+                <label class="form-label" for="password">Password</label>
+                <input type="text" id="password" name="password" class="form-input" placeholder="Type any random password..." autocomplete="off">
+            </div>
+
+            <div style="display: flex; gap: 10px; margin-top: 18px;">
+                <button type="submit" id="btn-submit" class="btn btn-primary btn-block">
+                    Test Login &rarr;
+                </button>
+            </div>
+        </form>
+
+        <!-- Result Box (Hidden by default, shown after test) -->
+        <div id="result-box" class="result-box" style="display: none;">
+            <div class="result-title" id="result-title"></div>
+            <div class="result-text" id="result-text"></div>
+
+            <div class="query-label">Executed SQL Query:</div>
+            <div class="query-display" id="result-query"></div>
+
+            <div id="dashboard-btn-wrapper" style="margin-top: 14px;"></div>
+        </div>
+    </div>
+
+    <!-- Simple Target Accounts List (Only 3 lines, super clear) -->
+    <div class="card">
+        <div class="card-title">Database Accounts</div>
+        <p style="color: var(--text-muted); font-size: 0.88rem; margin-bottom: 12px;">
+            Here are the accounts currently in the database. Notice the admin password is strong and unknown:
+        </p>
+        <table class="clean-table">
+            <thead>
+                <tr>
+                    <th>Username</th>
+                    <th>Role</th>
+                    <th>Password</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>admin</strong></td>
+                    <td><span class="badge badge-red">Administrator</span></td>
+                    <td style="color: var(--text-light);">🔒 Strong & Unknown (Bypassed with <code>admin' --</code>)</td>
+                </tr>
+                <tr>
+                    <td><strong>student_alice</strong></td>
+                    <td><span class="badge badge-green">Student</span></td>
+                    <td><code>alicepass2026</code> (Regular user)</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <footer>
+        <p>Cyber Security (IT-30001) | Dr. Soumyadev Maity | IIIT Allahabad</p>
+    </footer>
+</div>
+
+<script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>

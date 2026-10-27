@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard | SQL Injection Proof</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+<div class="container">
+    <header class="navbar">
+        <div class="brand">
+            <span class="brand-badge">ADMIN PORTAL</span>
+            <span>Internal Dashboard</span>
+        </div>
+        <nav class="nav-links">
+            <a href="{{ url_for('index') }}" class="nav-link">&larr; Back to Login</a>
+            <a href="{{ url_for('logout') }}" class="btn btn-secondary" style="padding: 6px 12px; font-size: 0.85rem;">Logout</a>
+        </nav>
+    </header>
+
+    <!-- Breach Alert -->
+    <div class="alert alert-danger">
+        <strong>⚠️ Proof of Breach:</strong> You successfully bypassed authentication as <strong>{{ user['username'] }}</strong> without knowing the password!
+    </div>
+
+    <!-- User Information Card -->
+    <div class="card">
+        <div class="card-title">
+            <span>Logged-in Identity</span>
+            <span class="badge badge-red">{{ user['role'] | upper }}</span>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 20px;">
+            <div>
+                <span style="font-size: 0.8rem; color: var(--text-light);">Username:</span>
+                <div style="font-weight: 700; font-size: 1.05rem;">{{ user['username'] }}</div>
+            </div>
+            <div>
+                <span style="font-size: 0.8rem; color: var(--text-light);">Account Name:</span>
+                <div style="font-weight: 700; font-size: 1.05rem;">{{ user['full_name'] }}</div>
+            </div>
+        </div>
+
+        <!-- Confidential Data Exposure -->
+        <div style="background: #fef2f2; border: 1px solid #fecaca; padding: 16px; border-radius: 8px;">
+            <div style="font-size: 0.85rem; font-weight: 700; color: #991b1b; margin-bottom: 6px;">
+                🔒 Confidential Server Data (Exposed via SQLi):
+            </div>
+            <code style="display: block; font-size: 0.9rem; color: #7f1d1d; word-break: break-all;">
+                {{ user['confidential_data'] }}
+            </code>
+        </div>
+    </div>
+
+    <!-- Simple Navigation Back -->
+    <div>
+        <a href="{{ url_for('index') }}" class="btn btn-primary">
+            &larr; Back to Login Demo
+        </a>
+    </div>
+
+    <footer>
+        <p>Cyber Security (IT-30001) | Dr. Soumyadev Maity | IIIT Allahabad</p>
+    </footer>
+</div>
+
+</body>
+</html>
